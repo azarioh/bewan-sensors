@@ -43,8 +43,6 @@ public class NbQueriesMySQLSensor extends AbstractMySQLSensor {
 
     @Override protected void initialize() throws SensorInitializationException {
         super.initialize();
-
-
         preview = 0;
     }
 
@@ -64,10 +62,8 @@ public class NbQueriesMySQLSensor extends AbstractMySQLSensor {
             ResultSet rs = ps.executeQuery();
             long queryTimeMillis = System.currentTimeMillis();
             rs.next();
-
             //TODO dont know if the better way is to send global value our per query value (not per second)
             int value = getPerQueryValue(rs.getInt("Value"));
-
             return new MeasurementImpl(queryTimeMillis, value);
         } catch (SQLException e) {
             throw new MeasurementNotAvailableException("Error query execution", e);

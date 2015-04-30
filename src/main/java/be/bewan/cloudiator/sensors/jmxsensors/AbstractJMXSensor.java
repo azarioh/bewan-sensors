@@ -32,7 +32,7 @@ import javax.management.remote.JMXConnectorFactory;
 import javax.management.remote.JMXServiceURL;
 
 /**
- * 
+ *
  * @author zarioha
  * An Abstract probe for measuring the JMX data
  */
@@ -45,6 +45,7 @@ add these line to VM arguments of monitored server side :
 */
 public abstract class AbstractJMXSensor extends AbstractSensor {
 	public final String PORT = "9999";
+	
 	public final String HOST = "127.0.0.1";
 	
 	protected ObjectName name;
