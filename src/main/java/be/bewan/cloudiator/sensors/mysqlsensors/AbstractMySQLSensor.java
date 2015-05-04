@@ -33,16 +33,21 @@ import java.sql.SQLException;
  * @author zarioha
  *         An abstract probe for measuring the MySQL metadata.
  */
-public abstract class AbstractMySQLSensor extends AbstractSensor {
+public abstract class AbstractMySQLSensor extends AbstractSensor
+{
     //TODO have a single connection for all mysql sensor and close it when all sensor are closed
     protected Connection connection;
     private String jdbcDriver = "org.drizzle.jdbc.DrizzleDriver";
 
     @Override
-    protected void initialize() throws SensorInitializationException {
-        try {
+    protected void initialize() throws SensorInitializationException 
+    {
+        try 
+        {
             Class.forName(jdbcDriver);
-        } catch (ClassNotFoundException e) {
+        }
+        catch (ClassNotFoundException e) 
+        {
             throw new SensorInitializationException("JdbcDriver not found", e);
         }
     }

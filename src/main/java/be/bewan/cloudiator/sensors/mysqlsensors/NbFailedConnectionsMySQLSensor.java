@@ -38,7 +38,8 @@ public class NbFailedConnectionsMySQLSensor extends AbstractMySQLSensor
 	private PreparedStatement ps ;
 
     //return the value added since the last value
-	protected int getPerQueryValue(int val) {
+	protected int getPerQueryValue(int val) 
+	{
 		int value = val;
 		int valuePerQuery = value-preview;
 		preview = value;
@@ -46,10 +47,9 @@ public class NbFailedConnectionsMySQLSensor extends AbstractMySQLSensor
 	}
 	
     @Override
-    protected void initialize() throws SensorInitializationException {
+    protected void initialize() throws SensorInitializationException 
+    {
     	super.initialize();
-
-	    
 	    preview= 0;
     }
     
@@ -57,11 +57,13 @@ public class NbFailedConnectionsMySQLSensor extends AbstractMySQLSensor
 	public void setMonitorContext(MonitorContext monitorContext) throws InvalidMonitorContextException 
     {	
     	super.setMonitorContext(monitorContext);
- 		
-	    try {
+	    try 
+	    {
 			this.ps = connection.prepareStatement("SHOW /*!50002 GLOBAL */ STATUS where Variable_name like ?");
 			ps.setString(1, "Aborted_connects");	
-	    } catch (SQLException e) {
+	    } 
+	    catch (SQLException e)
+	    {
 			throw new InvalidMonitorContextException("Error prepared query",e);
 	    } 
     }
@@ -71,12 +73,12 @@ public class NbFailedConnectionsMySQLSensor extends AbstractMySQLSensor
     {		    
     	try 
     	{
-					ResultSet rs = ps.executeQuery();
-					long queryTimeMillis = System.currentTimeMillis();
-					rs.next();
-					int value = getPerQueryValue(rs.getInt("Value"));
+			ResultSet rs = ps.executeQuery();
+			long queryTimeMillis = System.currentTimeMillis();
+			rs.next();
+			int value = getPerQueryValue(rs.getInt("Value"));
 
-					return new MeasurementImpl(queryTimeMillis, value);
+			return new MeasurementImpl(queryTimeMillis, value);
 		} 
     	catch (SQLException e) 
     	{
