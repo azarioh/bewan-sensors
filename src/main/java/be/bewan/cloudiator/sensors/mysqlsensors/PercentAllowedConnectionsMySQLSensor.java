@@ -43,8 +43,8 @@ public class PercentAllowedConnectionsMySQLSensor extends AbstractMySQLSensor {
         throws MeasurementNotAvailableException {
 
 
-        if (this.ps == null || this.ps2 == null) {
-
+        if (this.ps == null || this.ps2 == null) 
+        {
             try {
                 this.ps = connection
                     .prepareStatement("SHOW /*!50002 GLOBAL */ STATUS where Variable_name like ?");

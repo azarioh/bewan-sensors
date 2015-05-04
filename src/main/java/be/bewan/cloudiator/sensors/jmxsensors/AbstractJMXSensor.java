@@ -20,7 +20,8 @@
 package be.bewan.cloudiator.sensors.jmxsensors;
 
 import de.uniulm.omi.cloudiator.visor.monitoring.AbstractSensor;
-import de.uniulm.omi.cloudiator.visor.monitoring.SensorInitializationException;
+import de.uniulm.omi.cloudiator.visor.monitoring.InvalidMonitorContextException;
+import de.uniulm.omi.cloudiator.visor.monitoring.MonitorContext;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -36,32 +37,41 @@ import javax.management.remote.JMXServiceURL;
  * @author zarioha
  * An Abstract probe for measuring the JMX data
  */
-/*
-add these line to VM arguments of monitored server side : 
-	-Dcom.sun.management.jmxremote
-	-Dcom.sun.management.jmxremote.port=9999
-	-Dcom.sun.management.jmxremote.authenticate=false
-	-Dcom.sun.management.jmxremote.ssl=false
-*/
-public abstract class AbstractJMXSensor extends AbstractSensor {
-	public final String PORT = "9999";
-	
-	public final String HOST = "127.0.0.1";
-	
+
+public abstract class AbstractJMXSensor extends AbstractSensor 
+{
 	protected ObjectName name;
 	protected MBeanServerConnection mbsc;
-	
-    @Override
-    protected void initialize() throws SensorInitializationException {
-	    String urlPath = "service:jmx:rmi:///jndi/rmi://"+HOST+":"+PORT+"/jmxrmi";
-		try {
+
+    @Override public void setMonitorContext(MonitorContext monitorContext)
+    throws InvalidMonitorContextException 
+    {
+    	super.setMonitorContext(monitorContext);
+    	
+    	//Init default values
+    	String jmxHost = "localhost";
+        String jmxPort = "9999";
+
+        //Get values from montiorContext if exist
+    	if(monitorContext.getContext().get("host") != null)     		
+    		jmxHost = monitorContext.getContext().get("host");
+    	if(monitorContext.getContext().get("port") != null)     		
+    		jmxPort = monitorContext.getContext().get("port");
+
+	    String urlPath = "service:jmx:rmi:///jndi/rmi://"+jmxHost+":"+jmxPort+"/jmxrmi";
+		try 
+		{
 			JMXServiceURL url = new JMXServiceURL(urlPath);
 			JMXConnector connecteur = JMXConnectorFactory.connect(url, null);
-		    mbsc = connecteur.getMBeanServerConnection();	 
-		} catch (MalformedURLException e) {
-			throw new SensorInitializationException("The URL is Malformed : "+ urlPath,e);
-		} catch (IOException e) {
-			throw new SensorInitializationException("Error of access to JMX connection : "+ urlPath,e);
+		    mbsc = connecteur.getMBeanServerConnection();
+		} 
+		catch (MalformedURLException e) 
+		{
+			throw new InvalidMonitorContextException("The URL is Malformed : "+ urlPath,e);
+		} 
+		catch (IOException e) 
+		{
+			throw new InvalidMonitorContextException("Error of access to JMX connection : "+ urlPath,e);
 		}    
     }
 }

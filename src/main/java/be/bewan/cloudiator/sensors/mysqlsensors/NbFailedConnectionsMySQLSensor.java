@@ -54,29 +54,33 @@ public class NbFailedConnectionsMySQLSensor extends AbstractMySQLSensor
     }
     
     @Override
-    protected Measurement getMeasurement(MonitorContext monitorContext) throws MeasurementNotAvailableException
+	public void setMonitorContext(MonitorContext monitorContext) throws InvalidMonitorContextException 
     {	
-    	if(this.ps == null)
-    	{    		
-		    try {
-				this.ps = connection.prepareStatement("SHOW /*!50002 GLOBAL */ STATUS where Variable_name like ?");
-				ps.setString(1, "Aborted_connects");	
-		    } catch (SQLException e) {
-				throw new MeasurementNotAvailableException("Error prepared query",e);
-			}
-    	}
-	    
-    	try {
+    	super.setMonitorContext(monitorContext);
+ 		
+	    try {
+			this.ps = connection.prepareStatement("SHOW /*!50002 GLOBAL */ STATUS where Variable_name like ?");
+			ps.setString(1, "Aborted_connects");	
+	    } catch (SQLException e) {
+			throw new InvalidMonitorContextException("Error prepared query",e);
+	    } 
+    }
+    
+    @Override
+    protected Measurement getMeasurement(MonitorContext monitorContext) throws MeasurementNotAvailableException
+    {		    
+    	try 
+    	{
 					ResultSet rs = ps.executeQuery();
 					long queryTimeMillis = System.currentTimeMillis();
 					rs.next();
-
-					//TODO dont know if the better way is to send global value our per query value (not per second)
 					int value = getPerQueryValue(rs.getInt("Value"));
 
 					return new MeasurementImpl(queryTimeMillis, value);
-		} catch (SQLException e) {
+		} 
+    	catch (SQLException e) 
+    	{
 			throw new MeasurementNotAvailableException("Error query execution",e);
 		}  
-    }    
+    } 
 }

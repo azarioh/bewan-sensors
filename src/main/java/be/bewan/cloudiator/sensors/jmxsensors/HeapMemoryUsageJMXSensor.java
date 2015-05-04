@@ -29,7 +29,8 @@ import java.lang.management.MemoryMXBean;
  * @author zarioha
  *         A probe for measuring the amount of the heap used memory in bytes
  */
-public class HeapMemoryUsageJMXSensor extends AbstractJMXSensor {
+public class HeapMemoryUsageJMXSensor extends AbstractJMXSensor 
+{
 
     private MemoryMXBean memoryBean;
 

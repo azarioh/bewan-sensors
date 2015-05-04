@@ -29,13 +29,9 @@ import de.uniulm.omi.cloudiator.visor.monitoring.SensorInitializationException;
 
 public class HaproxyLogSensor extends AbstractLogSensor {
 
-    public HaproxyLogSensor() {
-        this.fileName = "logs/haproxy.log";
-    }
-
-    protected void initialize() throws SensorInitializationException {
+    protected void initialize() throws SensorInitializationException 
+    {
         super.initialize();
-
         this.contains.add("JSESSIONID");
         this.dontContains.add(".css");
     }

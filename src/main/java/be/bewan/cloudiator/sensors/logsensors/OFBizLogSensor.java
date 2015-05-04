@@ -20,8 +20,6 @@
 
 package be.bewan.cloudiator.sensors.logsensors;
 
-import de.uniulm.omi.cloudiator.visor.monitoring.AbstractSensor;
-import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementNotAvailableException;
 import de.uniulm.omi.cloudiator.visor.monitoring.SensorInitializationException;
 
 import java.util.regex.Pattern;
@@ -33,23 +31,12 @@ import java.util.regex.Pattern;
  * This Sensor read log file from OFBizLog
  */
 
-public class OFBizLogSensor extends AbstractLogSensor {
-
-	public OFBizLogSensor() {
-		this.fileName = "logs/ofbiz.log";
-	}
-	
-	public static void main(String[] args) throws SensorInitializationException,
-			MeasurementNotAvailableException {
-		AbstractSensor logReader = new OFBizLogSensor();
-		logReader.init();
-		logReader.getMeasurement();
-	}
-
-    protected void initialize() throws SensorInitializationException {
+public class OFBizLogSensor extends AbstractLogSensor 
+{
+    protected void initialize() throws SensorInitializationException 
+    {
     	super.initialize();
     	String pattern = "(19|20\\d{2})-(0?[1-9]|1[012])-(0?[1-9]|[12]\\d|3[01]) ([01]?\\d|2[0-3]):([0-5]\\d):([0-5]\\d),(\\d{3}).*\\((http.+?)\\).*\\[\\[\\[(.+?)\\(Domain.*(Request Done).*total:(.*),";
     	this.requestPattern = Pattern.compile(pattern);
-    
     }
 }

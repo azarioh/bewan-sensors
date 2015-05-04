@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 
 /**
  * @author zarioha
- *         This Sensor read log file from any ways with conditions
+ *         This Sensor read log file with conditions
  */
 
 public abstract class AbstractLogSensor extends AbstractSensor {
@@ -44,61 +44,83 @@ public abstract class AbstractLogSensor extends AbstractSensor {
     protected List<String> dontContains = new ArrayList<String>();
     protected Pattern requestPattern;
 
-    protected void initialize() throws SensorInitializationException {
+    @Override public void setMonitorContext(MonitorContext monitorContext)
+        throws InvalidMonitorContextException 
+    {
+        super.setMonitorContext(monitorContext);
+        this.fileName = monitorContext.getContext().get("file");
         try {
             file = new RandomAccessFile(fileName, "r");
         } catch (FileNotFoundException e) {
-            throw new SensorInitializationException("Error opening file : " + fileName, e);
+            throw new InvalidMonitorContextException("Error opening file : " + fileName, e);
         }
     }
-
+    
+    
     @Override protected Measurement getMeasurement(MonitorContext monitorContext)
-        throws MeasurementNotAvailableException {
-        try {
-            //RandomAccessFile file = new RandomAccessFile(fileName, "r");
+    throws MeasurementNotAvailableException 
+    {
+    	//this.fileName = 
+        try 
+        {
             List<String> lines = new ArrayList<String>();
-            if (file.length() < filePointer) {
+            if (file.length() < filePointer) 
+            {
                 String message =
                     "Some lines were erased (chars from " + file.length() + " to " + filePointer
                         + " are missing)";
                 filePointer = 0;
                 throw new MeasurementNotAvailableException(message);
-            } else {
+            } 
+            else 
+            {
                 file.seek(filePointer);
                 String line;
-                while ((line = file.readLine()) != null) {
+                while ((line = file.readLine()) != null) 
+                {
                     //NOTE I do not understand these conditions
                     boolean isOkLine = true;
 
-                    for (String temp : contains) {
-                        if (!line.contains(temp)) {
+                    for (String temp : contains) 
+                    {
+                        if (!line.contains(temp)) 
+                        {
                             isOkLine = false;
                         }
                     }
-                    for (String temp : dontContains) {
-                        if (line.contains(temp)) {
+                    for (String temp : dontContains) 
+                    {
+                        if (line.contains(temp)) 
+                        {
                             isOkLine = false;
                         }
                     }
 
-                    if (isOkLine) {
-                        if (requestPattern != null) {
+                    if (isOkLine) 
+                    {
+                        if (requestPattern != null) 
+                        {
                             Matcher requestMatcher = requestPattern.matcher(line);
-                            while (requestMatcher.find()) {
+                            while (requestMatcher.find()) 
+                            {
                                 String temp = "";
-                                for (int i = 1; i <= requestMatcher.groupCount(); i++) {
+                                for (int i = 1; i <= requestMatcher.groupCount(); i++) 
+                                {
                                     temp = temp + requestMatcher.group(i);
                                     if (i != requestMatcher.groupCount())
                                         temp = temp + ", ";
                                 }
                                 lines.add("{" + temp + "}");
                             }
-                        } else {
+                        } 
+                        else 
+                        {
                             lines.add(line);
                         }
                     }
                 }
-                if (lines.size() > 0) {
+                if (lines.size() > 0) 
+                {
                     //System.out.println(lines);
                 }
 
@@ -107,7 +129,9 @@ public abstract class AbstractLogSensor extends AbstractSensor {
             }
 
             //file.close();
-        } catch (IOException e) {
+        } 
+        catch (IOException e) 
+        {
             throw new MeasurementNotAvailableException("Error accessing file : " + fileName, e);
         }
     }

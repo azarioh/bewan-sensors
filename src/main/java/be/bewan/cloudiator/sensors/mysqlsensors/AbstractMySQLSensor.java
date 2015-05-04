@@ -34,15 +34,11 @@ import java.sql.SQLException;
  *         An abstract probe for measuring the MySQL metadata.
  */
 public abstract class AbstractMySQLSensor extends AbstractSensor {
-    //TODO have a single connection for all mysql sensor and close it when close monitoring
+    //TODO have a single connection for all mysql sensor and close it when all sensor are closed
     protected Connection connection;
-    //TODO by convention : use '%' user (anonymous) without password to read metadata
     private String jdbcDriver = "org.drizzle.jdbc.DrizzleDriver";
-    private String jdbcName = "remote";
-    private String jdbcPassword = "remote";
 
     @Override
-    // FileConfigurationAccessor
     protected void initialize() throws SensorInitializationException {
         try {
             Class.forName(jdbcDriver);
@@ -52,18 +48,35 @@ public abstract class AbstractMySQLSensor extends AbstractSensor {
     }
 
     @Override public void setMonitorContext(MonitorContext monitorContext)
-        throws InvalidMonitorContextException {
-        super.setMonitorContext(monitorContext);
+    throws InvalidMonitorContextException 
+    {
+    	super.setMonitorContext(monitorContext);
+    	
+    	//Init default values
+    	String jdbcHost = "localhost";
+        String jdbcPort = "3306";
+        String jdbcName = "root";
+        String jdbcPassword = "";
 
-        if (connection == null) {
-            String jdbcHost = monitorContext.getContext().get("host");
-            String jdbcPort = monitorContext.getContext().get("port");
+        //Get values from montiorContext if exist
+    	if(monitorContext.getContext().get("host") != null)     		
+    		jdbcHost = monitorContext.getContext().get("host");
+    	if(monitorContext.getContext().get("port") != null)     		
+    		jdbcPort = monitorContext.getContext().get("port");
+    	if(monitorContext.getContext().get("user") != null)     		
+    		jdbcName = monitorContext.getContext().get("user");
+    	if(monitorContext.getContext().get("password") != null)     		
+    		jdbcPassword = monitorContext.getContext().get("password");
+    	
+    	//Create connection
+        try 
+        {
             String jdbcUrl = "jdbc:drizzle://" + jdbcHost + ":" + jdbcPort + "/";
-            try {
-                connection = DriverManager.getConnection(jdbcUrl, jdbcName, jdbcPassword);
-            } catch (SQLException e) {
-                throw new InvalidMonitorContextException("Error during connection", e);
-            }
+            connection = DriverManager.getConnection(jdbcUrl, jdbcName, jdbcPassword);
+        }
+        catch (SQLException e) 
+        {
+            throw new InvalidMonitorContextException("Error during connection", e);
         }
     }
 }
