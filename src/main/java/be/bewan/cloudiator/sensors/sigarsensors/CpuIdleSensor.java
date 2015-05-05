@@ -19,18 +19,12 @@
 
 package be.bewan.cloudiator.sensors.sigarsensors;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import org.hyperic.sigar.SigarException;
 
 import de.uniulm.omi.cloudiator.visor.monitoring.Measurement;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementImpl;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementNotAvailableException;
 import de.uniulm.omi.cloudiator.visor.monitoring.MonitorContext;
-import be.bewan.cloudiator.sensors.mysqlsensors.AbstractMySQLSensor;
-
-
 /**
  * 
  * @author zarioha
@@ -49,7 +43,7 @@ public class CpuIdleSensor extends AbstractSigarSensor
 		} 
     	catch (SigarException e) 
     	{
-			throw new MeasurementNotAvailableException("Error sigar.getCpu()",e);
+			throw new MeasurementNotAvailableException("Error sigar.getCpuPerc().getIdle()",e);
 			
 		}
     } 
