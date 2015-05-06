@@ -17,13 +17,14 @@
  *  
  */
 
-package be.bewan.cloudiator.sensors.sigarsensors;
+package be.bewan.cloudiator.sensors.networksensors;
 
 import java.sql.PreparedStatement;
 
 import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.SigarException;
 
+import be.bewan.cloudiator.sensors.sigarsensors.AbstractSigarSensor;
 import de.uniulm.omi.cloudiator.visor.monitoring.InvalidMonitorContextException;
 import de.uniulm.omi.cloudiator.visor.monitoring.MonitorContext;
 

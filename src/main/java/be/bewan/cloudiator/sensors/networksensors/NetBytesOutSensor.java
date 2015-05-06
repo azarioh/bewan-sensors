@@ -17,7 +17,7 @@
  *  
  */
 
-package be.bewan.cloudiator.sensors.sigarsensors;
+package be.bewan.cloudiator.sensors.networksensors;
 
 import de.uniulm.omi.cloudiator.visor.monitoring.Measurement;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementImpl;
