@@ -16,8 +16,8 @@ Abstract sensor for measuring network usage using Sigar.
     "period":1,
     "timeUnit":"SECONDS"
   },
-  "metricName":"SQLNbQuery",
-  "sensorClassName":"be.bewan.cloudiator.sensors.sigarsensors.NetPacketsInSensor"
+  "metricName":"net_Packets_in_usage",
+  "sensorClassName":"be.bewan.cloudiator.sensors.networksensors.NetPacketsInSensor"
 }
 ```
 
@@ -27,7 +27,7 @@ Parameter | Type   | Description
 name 	  | String | Default : "eth0".
 
 ##SensorClassName 
->all these class are from be.bewan.cloudiator.sensors.sigarsensors package.
+>all these class are from be.bewan.cloudiator.sensors.networksensors package.
 
 ###NetPacketsInSensor
 A sensor for measuring the number of received packets per interval

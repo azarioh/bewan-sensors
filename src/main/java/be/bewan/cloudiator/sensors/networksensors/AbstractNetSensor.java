@@ -19,7 +19,6 @@
 
 package be.bewan.cloudiator.sensors.networksensors;
 
-import java.sql.PreparedStatement;
 
 import org.hyperic.sigar.NetInterfaceStat;
 import org.hyperic.sigar.SigarException;

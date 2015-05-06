@@ -17,10 +17,11 @@
  *  
  */
 
-package be.bewan.cloudiator.sensors.sigarsensors;
+package be.bewan.cloudiator.sensors.cpusensors;
 
 import org.hyperic.sigar.SigarException;
 
+import be.bewan.cloudiator.sensors.sigarsensors.AbstractSigarSensor;
 import de.uniulm.omi.cloudiator.visor.monitoring.Measurement;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementImpl;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementNotAvailableException;
@@ -30,9 +31,9 @@ import de.uniulm.omi.cloudiator.visor.monitoring.MonitorContext;
  * 
  * @author zarioha
  * 
- * 
+ * A sensor for measuring the cpu user usage percent
  */
-public class CpuWaitSensor extends AbstractSigarSensor  
+public class CpuUserUsageSensor extends AbstractSigarSensor  
 {
     @Override
     protected Measurement getMeasurement(MonitorContext monitorContext) throws MeasurementNotAvailableException
@@ -40,11 +41,11 @@ public class CpuWaitSensor extends AbstractSigarSensor
 		long queryTimeMillis = System.currentTimeMillis();
     	try 
     	{
-			return new MeasurementImpl(queryTimeMillis, sigar.getCpuPerc().getWait());
+			return new MeasurementImpl(queryTimeMillis, sigar.getCpuPerc().getUser());
 		} 
     	catch (SigarException e) 
     	{
-			throw new MeasurementNotAvailableException("Error sigar.getCpuPerc().getWait()",e);
+			throw new MeasurementNotAvailableException("Error sigar.getCpuPerc().getUser()",e);
 			
 		}
     } 

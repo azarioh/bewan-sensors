@@ -17,10 +17,11 @@
  *  
  */
 
-package be.bewan.cloudiator.sensors.sigarsensors;
+package be.bewan.cloudiator.sensors.cpusensors;
 
 import org.hyperic.sigar.SigarException;
 
+import be.bewan.cloudiator.sensors.sigarsensors.AbstractSigarSensor;
 import de.uniulm.omi.cloudiator.visor.monitoring.Measurement;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementImpl;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementNotAvailableException;
@@ -29,10 +30,10 @@ import de.uniulm.omi.cloudiator.visor.monitoring.MonitorContext;
 /**
  * 
  * @author zarioha
- *
  * 
+ * A sensor for measuring the cpu idle usage percent
  */
-public class CpuNiceUsageSensor extends AbstractSigarSensor  
+public class CpuIdleSensor extends AbstractSigarSensor  
 {
     @Override
     protected Measurement getMeasurement(MonitorContext monitorContext) throws MeasurementNotAvailableException
@@ -40,11 +41,11 @@ public class CpuNiceUsageSensor extends AbstractSigarSensor
 		long queryTimeMillis = System.currentTimeMillis();
     	try 
     	{
-			return new MeasurementImpl(queryTimeMillis, sigar.getCpuPerc().getNice());
+			return new MeasurementImpl(queryTimeMillis, sigar.getCpuPerc().getIdle());
 		} 
     	catch (SigarException e) 
     	{
-			throw new MeasurementNotAvailableException("Error sigar.getCpuPerc().getNice()",e);
+			throw new MeasurementNotAvailableException("Error sigar.getCpuPerc().getIdle()",e);
 			
 		}
     } 
