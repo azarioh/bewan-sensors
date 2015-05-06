@@ -1,7 +1,7 @@
 #CpuSensors
 
 ##Description
-Abstract sensor for measuring cpu usage using Sigar.
+These sensors measure cpu usage with Sigar library.
 
 ##Example
 ```javascript

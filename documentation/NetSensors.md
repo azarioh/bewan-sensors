@@ -1,7 +1,7 @@
 #NetSensors
 
 ##Description
-Abstract sensor for measuring network usage using Sigar.
+These sensors are measuring network activity using Sigar.
 
 ##Example
 ```javascript
