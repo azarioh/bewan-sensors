@@ -1,7 +1,6 @@
 #MySQLSensors
--------------
 ##Description
-MySQLSensors provide metrics about MySQL usage.
+MySQLSensors provide metrics about MySQL usage using Drizzle JDBC 1.3 library.
 
 ##Example
 ```javascript

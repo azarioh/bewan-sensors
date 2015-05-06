@@ -1,7 +1,7 @@
 #JMXSensors
--------------
+
 ##Description
-JMXSensors send some JMX data
+JMXSensors uses javax.management.remote library to get measures from a JVM.
 
 ##Configuration
 add these line to VM arguments of monitored server side : 
@@ -45,13 +45,13 @@ port 	  | String | The port to communicate with the database. Default : "9999".
 >all these class are from be.bewan.cloudiator.sensors.jmxsensors package.
 
 ###PeakThreadCountJMXSensor
-This Sensor is measuring the peak live thread count since the Java virtual machine started
+This Sensor uses a (java.lang.management.ThreadMXBean)[https://docs.oracle.com/javase/8/docs/api/java/lang/management/ThreadMXBean.html] to measure the peak live thread count since the Java virtual machine started.
 
 ###UpTimeJMXSensor
-This Sensor is measuring the upTime of the Java virtual machine
+This Sensor uses a (java.lang.management.RuntimeMXBean)[https://docs.oracle.com/javase/8/docs/api/java/lang/management/RuntimeMXBean.html] to get the upTime of the Java virtual machine.
 
 ###HeapMemoryUsageJMXSensor
-This Sensor is measuring the amount of the heap used memory in bytes, it does not work remotely
+This Sensor uses a (java.lang.management.MemoryMXBean)[https://docs.oracle.com/javase/8/docs/api/java/lang/management/MemoryMXBean.html] to measure the amount of the heap used memory in bytes, it does not work remotely
 
 ##Issue
 - Needs a configuration in the application side.

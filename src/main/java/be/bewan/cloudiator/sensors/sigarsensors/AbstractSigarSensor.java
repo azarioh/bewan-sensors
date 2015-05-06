@@ -26,22 +26,20 @@ import org.hyperic.sigar.SigarProxyCache;
 import de.uniulm.omi.cloudiator.visor.monitoring.AbstractSensor;
 import de.uniulm.omi.cloudiator.visor.monitoring.SensorInitializationException;
 
-
 /**
  * 
  * @author zarioha
  * 
  * 
  */
-
 public abstract class AbstractSigarSensor extends AbstractSensor
 {
 	protected SigarProxy sigar;
 
-
     @Override
     protected void initialize() throws SensorInitializationException 
     {
+    	super.initialize();
     	Sigar sigarImpl=new Sigar();
     	sigar = SigarProxyCache.newInstance(sigarImpl);
     }	

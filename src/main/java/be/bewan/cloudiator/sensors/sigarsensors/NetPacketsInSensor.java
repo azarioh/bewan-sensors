@@ -19,8 +19,6 @@
 
 package be.bewan.cloudiator.sensors.sigarsensors;
 
-import org.hyperic.sigar.SigarException;
-
 import de.uniulm.omi.cloudiator.visor.monitoring.Measurement;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementImpl;
 import de.uniulm.omi.cloudiator.visor.monitoring.MeasurementNotAvailableException;
@@ -30,22 +28,14 @@ import de.uniulm.omi.cloudiator.visor.monitoring.MonitorContext;
  * 
  * @author zarioha
  * 
- * 
+ * A sensor for measuring the number of received packets per interval
  */
-public class NetPacketsInSensor extends AbstractSigarSensor  
+public class NetPacketsInSensor extends AbstractNetSensor  
 {
     @Override
     protected Measurement getMeasurement(MonitorContext monitorContext) throws MeasurementNotAvailableException
     {	
 		long queryTimeMillis = System.currentTimeMillis();
-    	try 
-    	{
-			return new MeasurementImpl(queryTimeMillis, sigar.getNetInterfaceStat("eth0").getRxPackets());
-		} 
-    	catch (SigarException e) 
-    	{
-			throw new MeasurementNotAvailableException("Error sigar.getSwap().getFree()",e);
-			
-		}
+		return new MeasurementImpl(queryTimeMillis, this.getPerIntervalValue(this.netInterface.getRxPackets()));
     } 
 }

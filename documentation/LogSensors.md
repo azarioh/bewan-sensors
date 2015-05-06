@@ -1,5 +1,4 @@
 #LogSensors
--------------
 ##Description
 LogSensors send the new lines from a log file.
 
