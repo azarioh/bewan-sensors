@@ -60,7 +60,7 @@ public abstract class AbstractMySQLSensor extends AbstractSensor
     	//Init default values
     	String jdbcHost = "localhost";
         String jdbcPort = "3306";
-        String jdbcName = "root";
+        String jdbcName = "paasage-monitor";
         String jdbcPassword = "";
 
         //Get values from montiorContext if exist
